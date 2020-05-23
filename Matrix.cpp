@@ -13,7 +13,7 @@ public:
 		for (int k = 0; k < i; k++)
 			arr[k] = new double[collumn];
 	}
-	
+
 	Matrix& operator=(const Matrix& a)
 	{
 		if (this->collumn > 0)
@@ -50,62 +50,84 @@ public:
 
 
 
-Matrix& operator+(const Matrix& a)
-{
-	if (a.line != this->line || a.collumn != this->collumn)
+	Matrix& operator+(const Matrix& a)
 	{
-		throw exception("Error!Matrixes must have equel sizes!");
+		if (a.line != this->line || a.collumn != this->collumn)
+		{
+			throw exception("Error!Matrixes must have equel sizes!");
+		}
+		for (int i = 0; i < a.line; i++)
+			for (int j = 0; j < a.collumn; j++)
+				this->arr[i][j] = a.arr[i][j] + this->arr[i][j];
+		return *this;
 	}
-	for (int i = 0; i < a.line; i++)
-		for (int j = 0; j < a.collumn; j++)
-			this->arr[i][j] = a.arr[i][j] + this->arr[i][j];
-	return *this;
-}
 
-Matrix& operator-(const Matrix& a)
-{
-	if (a.line != this->line || a.collumn != this->collumn)
+	Matrix operator *(Matrix& a) 
 	{
-		throw exception("Error!Matrixes must have equel sizes!");
+		if (this->collumn != a.line)
+		{
+			throw exception("Matrixes are incompatible");
+		}
+		Matrix c(this->line, a.collumn);
+		for (int i = 0; i < line; i++) 
+		{
+			for (int j = 0; j < collumn; j++)
+			{
+				c.arr[i][j] = 0;
+				for (int k = 0; k < a.line; k++) 
+				{
+					c.arr[i][j] += (arr[i][k] * a.arr[k][j]);
+				}
+			}
+		}
+		return c;
 	}
-	for (int i = 0; i < a.line; i++)
-		for (int j = 0; j < a.collumn; j++)
-			this->arr[i][j] = this->arr[i][j] - a.arr[i][j];
-	return *this;
-}
-Matrix& operator*(const Matrix& a)
-{
-	if (this->collumn != a.line)
-	{
-		throw exception("Matrixes are incompatible");
-	}
-	Matrix c(this->line, a.collumn);
-	for (int i = 0; i < this->line; i++)
-		for (int j = 0; j < a.collumn; j++)
-			for (int k = 0; k < this->collumn; k++)
-				c.arr[i][j] += this->arr[i][k] * a.arr[k][j];
-	return c;
-
-}
-
 };
 int main()
 {
-	Matrix a(2, 3);
-	Matrix b(4, 4);
-	Matrix c(3, 5);
-	for (int i = 0; i < b.line; i++)
-		for (int j = 0; j < b.collumn; j++)
-			b.arr[i][j] = i + j;
-	for (int i = 0; i < a.line; i++)
-		for (int j = 0; j < a.collumn; j++)
-			a.arr[i][j] = i + j;
+	Matrix a(3, 3);
+	Matrix b(1, 2);
+	Matrix c(3, 3);
+	try {
+		cout << "Fill the first matrix \n";
+		for (int i = 0; i < a.line; i++)
+		{
+			for (int j = 0; j < a.collumn; j++)
+			{
+				cout << "Insert element [" << i + 1 << "][" << j + 1 << "] : "; cin >> a.arr[i][j];
+			}
+		}
+		cout << "Fill the second matrix \n";
+		for (int i = 0; i < b.line; i++)
+		{
+			for (int j = 0; j < b.collumn; j++)
+			{
+				cout << "Insert element [" << i + 1 << "][" << j + 1 << "] : "; cin >> b.arr[i][j];
+			}
+		}
+		cout << "Fill the third matrix \n";
+		for (int i = 0; i < c.line; i++)
+		{
+			for (int j = 0; j < c.collumn; j++)
+			{
+				cout << "Insert element [" << i + 1 << "][" << j + 1 << "] : "; cin >> c.arr[i][j];
+			}
+		}
+	}
+	catch(const exception & ex)
+	{
+		cout << ex.what() << endl;
+	}
+	
 	try
 	{
-
-		b = c;
+		cout << "a*c=\n";
 		cout << a * c;
-
+		cout << "a+c=\n";
+		cout << a + c << "\n";
+		a = b;
+		cout << "a=\n";
+		cout << a;
 	}
 	catch (const  exception & ex)
 	{
