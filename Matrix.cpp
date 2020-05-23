@@ -87,7 +87,7 @@ int main()
 {
 	Matrix a(3, 3);
 	Matrix b(1, 2);
-	Matrix c(3, 3);
+	Matrix c(3, 2);
 	try {
 		cout << "Fill the first matrix \n";
 		for (int i = 0; i < a.line; i++)
