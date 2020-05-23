@@ -123,8 +123,22 @@ int main()
 	{
 		cout << "a*c=\n";
 		cout << a * c;
+	}
+	catch (const  exception & ex)
+	{
+		cout << ex.what() << endl;
+	}
+	try
+	{
 		cout << "a+c=\n";
 		cout << a + c << "\n";
+	}
+	catch (const  exception & ex)
+	{
+		cout << ex.what() << endl;
+	}
+	try
+	{
 		a = b;
 		cout << "a=\n";
 		cout << a;
